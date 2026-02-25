@@ -1,0 +1,9 @@
+{
+  "servers": {
+    "nkanyezi-lamp-mcp-server": {
+      "type": "stdio",
+      "command": "dotnet",
+      "args": ["run"]
+    }
+  }
+}

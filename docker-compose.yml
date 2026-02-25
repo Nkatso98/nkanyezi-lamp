@@ -1,0 +1,34 @@
+version: "3.9"
+
+services:
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile.api
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Production
+      - Speech__AzureTtsKey=${SPEECH_KEY}
+      - Speech__AzureRegion=${SPEECH_REGION}
+      - Ocr__TessdataPath=/usr/share/tesseract-ocr/4.00/tessdata
+      - Cors__AllowedOrigins__0=http://localhost:3000
+      - ConnectionStrings__LampDb=Data Source=/app/data/lamp.db
+    volumes:
+      - api_data:/app/data
+      - api_uploads:/app/Uploads
+    ports:
+      - "5000:8080"
+
+  web:
+    build:
+      context: ./nkanyezi-lamp-admin
+      dockerfile: Dockerfile
+      args:
+        - REACT_APP_API_BASE_URL=http://localhost:5000/api/workflow
+    ports:
+      - "3000:80"
+    depends_on:
+      - api
+
+volumes:
+  api_data:
+  api_uploads:

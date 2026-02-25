@@ -1,0 +1,56 @@
+name: Build and deploy to Azure Web Apps
+
+on:
+  push:
+    branches:
+      - main
+
+env:
+  IMAGE_API: nkanyezi/api
+  IMAGE_WEB: nkanyezi/web
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Azure login
+        uses: azure/login@v2
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+      - name: ACR login
+        run: az acr login -n ${{ secrets.ACR_NAME }}
+
+      - name: Build and push API
+        run: |
+          docker build -t ${{ secrets.ACR_NAME }}.azurecr.io/${{ env.IMAGE_API }}:${{ github.sha }} -f Dockerfile.api .
+          docker push ${{ secrets.ACR_NAME }}.azurecr.io/${{ env.IMAGE_API }}:${{ github.sha }}
+
+      - name: Build and push Web
+        run: |
+          docker build -t ${{ secrets.ACR_NAME }}.azurecr.io/${{ env.IMAGE_WEB }}:${{ github.sha }} -f nkanyezi-lamp-admin/Dockerfile nkanyezi-lamp-admin \
+            --build-arg REACT_APP_API_BASE_URL=${{ secrets.API_BASE_URL }}
+          docker push ${{ secrets.ACR_NAME }}.azurecr.io/${{ env.IMAGE_WEB }}:${{ github.sha }}
+
+      - name: Deploy API container
+        run: |
+          az webapp config container set \
+            --resource-group ${{ secrets.RESOURCE_GROUP }} \
+            --name ${{ secrets.API_APP_NAME }} \
+            --docker-custom-image-name ${{ secrets.ACR_NAME }}.azurecr.io/${{ env.IMAGE_API }}:${{ github.sha }} \
+            --docker-registry-server-url https://${{ secrets.ACR_NAME }}.azurecr.io \
+            --docker-registry-server-user ${{ secrets.ACR_USERNAME }} \
+            --docker-registry-server-password ${{ secrets.ACR_PASSWORD }}
+
+      - name: Deploy Web container
+        run: |
+          az webapp config container set \
+            --resource-group ${{ secrets.RESOURCE_GROUP }} \
+            --name ${{ secrets.WEB_APP_NAME }} \
+            --docker-custom-image-name ${{ secrets.ACR_NAME }}.azurecr.io/${{ env.IMAGE_WEB }}:${{ github.sha }} \
+            --docker-registry-server-url https://${{ secrets.ACR_NAME }}.azurecr.io \
+            --docker-registry-server-user ${{ secrets.ACR_USERNAME }} \
+            --docker-registry-server-password ${{ secrets.ACR_PASSWORD }}

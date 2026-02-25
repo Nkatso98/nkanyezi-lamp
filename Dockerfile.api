@@ -1,0 +1,32 @@
+FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
+WORKDIR /src
+COPY "NkanyeziLamp.Api/NkanyeziLamp.Api.csproj" "NkanyeziLamp.Api/"
+RUN dotnet restore "NkanyeziLamp.Api/NkanyeziLamp.Api.csproj"
+COPY . .
+WORKDIR "/src/NkanyeziLamp.Api"
+RUN dotnet publish -c Release -o /app/publish
+
+FROM mcr.microsoft.com/dotnet/aspnet:6.0
+WORKDIR /app
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    ffmpeg \
+    tesseract-ocr \
+    tesseract-ocr-eng \
+    libgdiplus \
+    fontconfig \
+    libfreetype6 \
+    libpng16-16 \
+    libx11-6 \
+    libxrender1 \
+    libxext6 \
+    libxfixes3 \
+    libxdamage1 \
+    libxcomposite1 \
+    libxcursor1 \
+    libxi6 \
+    && rm -rf /var/lib/apt/lists/*
+ENV ASPNETCORE_URLS=http://+:8080
+ENV Ocr__TessdataPath=/usr/share/tesseract-ocr/4.00/tessdata
+EXPOSE 8080
+COPY --from=build /app/publish .
+ENTRYPOINT ["dotnet", "NkanyeziLamp.Api.dll"]

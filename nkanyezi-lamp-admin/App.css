@@ -1,0 +1,84 @@
+body {
+  background: linear-gradient(135deg, #1e293b 0%, #0ea5e9 100%);
+  min-height: 100vh;
+  margin: 0;
+  font-family: 'Segoe UI', Arial, sans-serif;
+}
+
+.app-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+}
+
+.upload-card {
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 8px 32px rgba(30, 41, 59, 0.2);
+  padding: 40px 32px;
+  width: 400px;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+}
+
+.upload-card h1 {
+  color: #0ea5e9;
+  font-size: 2rem;
+  margin-bottom: 8px;
+}
+
+.subtitle {
+  color: #64748b;
+  font-size: 1rem;
+  margin-bottom: 24px;
+}
+
+select {
+  padding: 8px;
+  border-radius: 8px;
+  border: 1px solid #cbd5e1;
+  margin-bottom: 24px;
+  font-size: 1rem;
+}
+
+.file-inputs {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+label {
+  color: #334155;
+  font-size: 1rem;
+}
+
+input[type="file"] {
+  margin-top: 8px;
+}
+
+.process-btn {
+  background: #0ea5e9;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 12px;
+  font-size: 1rem;
+  font-weight: bold;
+  cursor: pointer;
+  margin-bottom: 16px;
+  transition: background 0.2s;
+}
+
+.process-btn:hover {
+  background: #0369a1;
+}
+
+.status {
+  color: #0ea5e9;
+  font-size: 1rem;
+  min-height: 24px;
+  text-align: center;
+}

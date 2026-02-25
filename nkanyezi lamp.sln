@@ -1,0 +1,24 @@
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.5.2.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NkanyeziLamp.Api", "NkanyeziLamp.Api\NkanyeziLamp.Api.csproj", "{ECD91A4F-B987-9908-04B2-EEE53F5743B9}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{ECD91A4F-B987-9908-04B2-EEE53F5743B9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ECD91A4F-B987-9908-04B2-EEE53F5743B9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ECD91A4F-B987-9908-04B2-EEE53F5743B9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ECD91A4F-B987-9908-04B2-EEE53F5743B9}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {911E5821-544C-40F0-91E6-03E4DE7192BE}
+	EndGlobalSection
+EndGlobal
